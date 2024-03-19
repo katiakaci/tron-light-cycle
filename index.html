@@ -1,57 +1,16 @@
 <html lang="en">
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-	<style>
-		.center {
-			background-repeat: no-repeat;
-			text-align: center;
-			background-size: cover;
-			background-image: url("https://img.freepik.com/free-vector/colourful-gradient-rain-squares-background_23-2148383739.jpg");
-		}
-
-		.right {
-			margin-top: 200px;
-			margin-right: 130px;
-			float: right;
-			text-align: center;
-			border-style: groove;
-			border-color: Tomato;
-			border-radius: 12px;
-			padding: 5px;
-			background-color: white;
-		}
-
-		.left {
-			margin-top: 200px;
-			margin-left: 130px;
-			float: left;
-			text-align: center;
-			border-style: groove;
-			border-color: DodgerBlue;
-			border-radius: 12px;
-			padding: 5px;
-			background-color: white;
-		}
-
-		.help {
-			position: absolute;
-			top: 8;
-			right: 10;
-		}
-	</style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 	<div class="center">
 		<h1 style="color: white;">Tron Light Cycles</h1>
-
-		<button id="pauseButton" type="button" onclick="pause()" disable="false"
-			style="width: 100px; height: 30px;">Pause</button>
-		<button id="goButton" type="button" onclick="go()" disabled="true"
-			style="background-color: #B0B0B0; width: 100px; height: 30px;">Go</button>
-		<button type="button" onclick="restart()" style="width: 100px; height: 30px;">Restart</button>
+		<button id="pauseButton"  type="button" onclick="pause()"  class="buttons">Pause</button>
+		<button id="goButton"  type="button" onclick="go()" class="buttons">Go</button>
+		<button  type="button" onclick="restart()" class="buttons">Restart</button>
 		<br><br>
 
 		<div class="left">
@@ -100,6 +59,7 @@
 			return array;
 		}
 
+		document.getElementById('goButton').disabled = true;
 		var canvas = document.getElementById("myCanvas");
 		var C = canvas.getContext("2d");
 		var canvas_rectangle = canvas.getBoundingClientRect();
@@ -382,10 +342,8 @@
 		function pause() {
 			clearInterval(timer);
 			clearInterval(increaseSpeedTimer);
-			document.getElementById("pauseButton").style.backgroundColor = "#B0B0B0";
 			document.getElementById('pauseButton').disabled = true;
 			document.getElementById('goButton').disabled = false;
-			document.getElementById("goButton").style.backgroundColor = null;
 		}
 
 		function restart() {
@@ -395,15 +353,16 @@
 			lightCycle2_score = 0;
 			document.getElementById("score1").innerText = lightCycle1_score;
 			document.getElementById("score2").innerText = lightCycle2_score;
+			clearInterval(timer);
+			clearInterval(increaseSpeedTimer);
+			go();
 		}
 
 		function go() {
 			timer = setInterval(function () { advance(); }, 100 /*milliseconds*/);
 			increaseSpeedTimer = setInterval(function () { increaseSpeed(); }, 150);
-			document.getElementById("pauseButton").style.backgroundColor = null;
 			document.getElementById('pauseButton').disabled = false;
 			document.getElementById('goButton').disabled = true;
-			document.getElementById("goButton").style.backgroundColor = "#B0B0B0";
 		}
 
 		function changeMousePlayer() {
