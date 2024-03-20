@@ -20,7 +20,7 @@ HTML5 canvas for rendering the game graphics.
 JavaScript for game logic and user interactions.
 CSS for styling and enhancing the user interface.
 
-## Future Improvements
+# Future Improvements
 
 Here are some planned improvements and features that will be added to the game in future updates:
 
