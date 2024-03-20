@@ -8,7 +8,7 @@ var create2DArray = function (numColumns, numRows) {
 }
 
 const backgroundMusic = document.getElementById('backgroundMusic');
-backgroundMusic.play();
+const collisionSound = document.getElementById('collisionSound');
 document.getElementById('goButton').disabled = true;
 const canvas = document.getElementById("myCanvas");
 const C = canvas.getContext("2d");
@@ -211,6 +211,7 @@ const advance = () => {
                     || grid[new2_x][new2_y] === CELL_OCCUPIED)) {
                 lightCycle2_alive = false;
                 lightCycle1_alive = false;
+                collisionSound.play();
                 redraw();
                 return;
             }
@@ -224,6 +225,7 @@ const advance = () => {
                 || new1_y < 0 || new1_y >= NUM_CELLS_VERTICAL
                 || grid[new1_x][new1_y] === CELL_OCCUPIED) {
                 lightCycle1_alive = false;
+                collisionSound.play();
                 document.getElementById("score2").innerText = ++lightCycle2_score; // player 2 wins
             }
             else {
@@ -243,6 +245,7 @@ const advance = () => {
                 || grid[new2_x][new2_y] === CELL_OCCUPIED
             ) {
                 lightCycle2_alive = false;
+                collisionSound.play();
                 document.getElementById("score1").innerText = ++lightCycle1_score; // player 1 wins
             } else {
                 grid[new2_x][new2_y] = CELL_OCCUPIED;
@@ -305,3 +308,5 @@ function changeMousePlayer() {
         document.getElementById('player1Button').disabled = true;
     }
 }
+
+backgroundMusic.play();
