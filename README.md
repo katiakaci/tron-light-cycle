@@ -20,6 +20,32 @@ HTML5 canvas for rendering the game graphics.
 JavaScript for game logic and user interactions.
 CSS for styling and enhancing the user interface.
 
+## Future Improvements
+
+Here are some planned improvements and features that will be added to the game in future updates:
+
+1. **Sound Effects Integration:**
+   - Add sound effects for movements such as left and right turns.
+
+2. **Enhanced Graphics and Visual Effects:**
+   - Add a toggle switch to the mouse control button to choose between Player 1 and Player 2 for mouse control.
+   - Improve the appearance of the motorcycle trail.
+
+3. **Customizable Game Settings:**
+   - Provide options for customizing game settings such as control schemes, game speed/difficulty levels,  grid size, visual themes and other gameplay parameters.
+
+4. **Mobile Compatibility and Responsive Design:**
+   - Optimize the game for mobile devices and ensure responsive design for various screen sizes.
+   - Implement touch controls and gestures for intuitive gameplay on touch-enabled devices.
+
+5. **AI Opponent and Single-Player Campaign:**
+   - Develop an AI opponent with adjustable difficulty levels for single-player mode.
+   - Create a single-player mode with challenging levels and objectives.
+
+6. **Multiplayer Online Mode:**
+   - Introduce a multiplayer online mode where players can compete against each other in real time.
+   - Implement networking features to support online gameplay with friends or random opponents.
+
 # Credits
 This game was created by Katia Kaci as a fun project to demonstrate programming and game development skills.
 
