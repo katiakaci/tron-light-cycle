@@ -24,6 +24,10 @@ let grid2 = create2DArray(NUM_CELLS_HORIZONTAL, NUM_CELLS_VERTICAL);
 const CELL_EMPTY = 0;
 const CELL_OCCUPIED = 1;
 
+var timeDelay = 100; // milliseconds
+let timer = setInterval(function () { advance(); }, timeDelay);
+let increaseSpeedTimer = setInterval(function () { increaseSpeed(); }, 200);
+
 // Current position and direction of light cycle 1
 var lightCycle1_x = NUM_CELLS_HORIZONTAL / 2;
 var lightCycle1_y = NUM_CELLS_VERTICAL - 2;
@@ -258,10 +262,6 @@ const advance = () => {
     }
 }
 
-var timeDelay = 100; // milliseconds
-let timer = setInterval(function () { advance(); }, timeDelay);
-let increaseSpeedTimer = setInterval(function () { increaseSpeed(); }, 200);
-
 var increaseSpeed = function () {
     clearInterval(timer);
     timer = setInterval(advance, timeDelay);
@@ -307,6 +307,12 @@ function changeMousePlayer() {
         document.getElementById('player2Button').disabled = false;
         document.getElementById('player1Button').disabled = true;
     }
+}
+
+function muteMusic() {
+    const isMuted = !backgroundMusic.muted;
+    backgroundMusic.muted = isMuted;
+    collisionSound.muted = isMuted;
 }
 
 backgroundMusic.play();
