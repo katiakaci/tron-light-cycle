@@ -34,17 +34,13 @@ Here are some planned improvements and features that will be added to the game i
 3. **Customizable Game Settings:**
    - Provide options for customizing game settings such as control schemes, game speed/difficulty levels,  grid size, visual themes and other gameplay parameters.
 
-4. **Mobile Compatibility and Responsive Design:**
+4. **Mobile Compatibility:**
    - Optimize the game for mobile devices and ensure responsive design for various screen sizes.
    - Implement touch controls and gestures for intuitive gameplay on touch-enabled devices.
 
-5. **AI Opponent and Single-Player Campaign:**
-   - Develop an AI opponent with adjustable difficulty levels for single-player mode.
+5. **Single-Player Mode:**
    - Create a single-player mode with challenging levels and objectives.
-
-6. **Multiplayer Online Mode:**
-   - Introduce a multiplayer online mode where players can compete against each other in real time.
-   - Implement networking features to support online gameplay with friends or random opponents.
+   - Develop an AI opponent with adjustable difficulty levels for single-player mode.
 
 # Credits
 This game was created by Katia Kaci as a fun project to demonstrate programming and game development skills.
