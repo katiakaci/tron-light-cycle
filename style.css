@@ -1,11 +1,19 @@
+body {
+    margin: 0;
+    overflow-y: hidden;
+}
+
 .center {
+    color: white;
     background-repeat: no-repeat;
     text-align: center;
     background-size: cover;
-    background-image: url("https://img.freepik.com/free-vector/colourful-gradient-rain-squares-background_23-2148383739.jpg");
+    background-image: url("images/background.png");
+    overflow-y: hidden;
 }
 
 .right {
+    color: Tomato;
     margin-top: 200px;
     margin-right: 130px;
     float: right;
@@ -18,6 +26,7 @@
 }
 
 .left {
+    color: DodgerBlue;
     margin-top: 200px;
     margin-left: 130px;
     float: left;
@@ -31,8 +40,8 @@
 
 .help {
     position: absolute;
-    top: 8;
-    right: 10;
+    top: 8px;
+    right: 10px;
 }
 
 .buttons {
@@ -44,6 +53,20 @@
     background: none;
     text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.45);
     margin-right: 30px;
+}
+
+.buttons:enabled {
+    cursor: pointer;
+}
+
+.buttons:disabled:after {
+    background: linear-gradient(60deg,
+            #000000,
+            #383839,
+            #515252,
+            #383939,
+            #070707);
+    cursor: default;
 }
 
 .buttons:enabled:before,
@@ -83,14 +106,4 @@
 .buttons:enabled:hover:before {
     width: 115%;
     height: 115%;
-}
-
-.buttons:disabled:after {
-    background: linear-gradient(60deg,
-    #000000,
-    #383839,
-    #515252,
-    #383939,
-    #070707);
-    cursor: default;
 }
