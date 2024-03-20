@@ -7,6 +7,8 @@ var create2DArray = function (numColumns, numRows) {
     return array;
 }
 
+const backgroundMusic = document.getElementById('backgroundMusic');
+backgroundMusic.play();
 document.getElementById('goButton').disabled = true;
 const canvas = document.getElementById("myCanvas");
 const C = canvas.getContext("2d");
@@ -136,7 +138,7 @@ document.onkeydown = keyDownHandler;
 document.onmousedown = mouseDownHandler;
 document.onmouseup = mouseUpHandler;
 
-const clearGame = () => {
+function clearGame() {
     lightCycle1_x = NUM_CELLS_HORIZONTAL / 2;
     lightCycle1_y = NUM_CELLS_VERTICAL - 2;
     lightCycle1_vx = 0;
@@ -268,6 +270,7 @@ function pause() {
     clearInterval(increaseSpeedTimer);
     document.getElementById('pauseButton').disabled = true;
     document.getElementById('goButton').disabled = false;
+    backgroundMusic.pause();
 }
 
 function restart() {
@@ -287,6 +290,7 @@ function go() {
     increaseSpeedTimer = setInterval(increaseSpeed, 150);
     document.getElementById('pauseButton').disabled = false;
     document.getElementById('goButton').disabled = true;
+    backgroundMusic.play();
 }
 
 function changeMousePlayer() {
