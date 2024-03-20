@@ -25,6 +25,7 @@ CSS for styling and enhancing the user interface.
 Here are some planned improvements and features that will be added to the game in future updates:
 
 1. **Sound Effects Integration:**
+   - Fix bug related to the start of the background music: Due to autoplay restrictions in mainstream browsers (see [Chrome's autoplay policy](https://developer.chrome.com/blog/autoplay)), the background music doesn't start automatically when the page is loaded. Users are required to click on the page to initiate playback.
    - Add sound effects for movements such as left and right turns.
 
 2. **Enhanced Graphics and Visual Effects:**

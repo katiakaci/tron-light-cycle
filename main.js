@@ -273,7 +273,6 @@ function pause() {
     clearInterval(increaseSpeedTimer);
     document.getElementById('pauseButton').disabled = true;
     document.getElementById('goButton').disabled = false;
-    backgroundMusic.pause();
 }
 
 function restart() {
@@ -293,7 +292,6 @@ function go() {
     increaseSpeedTimer = setInterval(increaseSpeed, 150);
     document.getElementById('pauseButton').disabled = false;
     document.getElementById('goButton').disabled = true;
-    backgroundMusic.play();
 }
 
 function changeMousePlayer() {
@@ -315,4 +313,7 @@ function muteMusic() {
     collisionSound.muted = isMuted;
 }
 
-backgroundMusic.play();
+// TODO : Find a way to play the music automatically without requiring the user to click on the page first
+window.onclick = function () {
+    backgroundMusic.play();
+};
