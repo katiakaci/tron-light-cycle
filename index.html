@@ -15,9 +15,11 @@
 <body>
 	<div class="center">
 		<h1>Tron Light Cycles</h1>
-		<button id="pauseButton" type="button" aria-label="Pause" onclick="pause()" class="buttons">Pause</button>
-		<button id="goButton" type="button" aria-label="Resume" onclick="go()" class="buttons">Resume</button>
-		<button type="button" aria-label="Restart" onclick="restart()" class="buttons">Restart</button>
+		<div class="buttons-container">
+			<button id="pauseButton" type="button" aria-label="Pause" onclick="pause()" class="buttons">Pause</button>
+			<button id="goButton" type="button" aria-label="Resume" onclick="go()" class="buttons">Resume</button>
+			<button type="button" aria-label="Restart" onclick="restart()" class="buttons">Restart</button>
+		</div>
 		<br><br>
 
 		<div class="left">
@@ -58,11 +60,13 @@
 		<br>
 
 		<p>Mouse on :</p>
-		<button id="player1Button" type="button" aria-label="Use mouse for player 1" onclick="changeMousePlayer()"
-			style="width: 100px; height: 30px; color:DodgerBlue;" disabled="true">Player 1</button>
-		<button id="player2Button" type="button" aria-label="Use mouse for player 2" onclick="changeMousePlayer()"
-			style="width: 100px; height: 30px; color: tomato;">Player 2</button>
-		<br><br>
+		<div class="mouse-buttons-container">
+			<button id="player1Button" type="button" aria-label="Use mouse for player 1" onclick="changeMousePlayer()"
+				style="width: 100px; height: 30px; color:DodgerBlue;" disabled="true">Player 1</button>
+			<button id="player2Button" type="button" aria-label="Use mouse for player 2" onclick="changeMousePlayer()"
+				style="width: 100px; height: 30px; color: tomato;">Player 2</button>
+			<br><br>
+		</div>
 	</div>
 
 	<audio id="backgroundMusic" loop muted>

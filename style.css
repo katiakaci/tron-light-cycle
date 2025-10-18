@@ -2,25 +2,41 @@ body {
     margin: 0;
     overflow-y: hidden;
     user-select: none;
+    background: url("images/background.png") no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    height: 100vh;
 }
 
 .center {
-    color: white;
-    background-repeat: no-repeat;
     text-align: center;
-    background-size: cover;
-    background-image: url("images/background.png");
-    overflow-y: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
 }
 
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.mouse-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.left,
 .right {
-    color: Tomato;
-    margin-top: 200px;
-    margin-right: 130px;
-    float: right;
+    position: absolute;
+    top: 200px;
+    width: 120px;
     text-align: center;
     border-style: groove;
-    border-color: Tomato;
     border-radius: 12px;
     padding: 5px;
     background-color: white;
@@ -28,15 +44,14 @@ body {
 
 .left {
     color: DodgerBlue;
-    margin-top: 200px;
-    margin-left: 130px;
-    float: left;
-    text-align: center;
-    border-style: groove;
     border-color: DodgerBlue;
-    border-radius: 12px;
-    padding: 5px;
-    background-color: white;
+    left: 130px;
+}
+
+.right {
+    color: Tomato;
+    border-color: Tomato;
+    right: 130px;
 }
 
 .help {
