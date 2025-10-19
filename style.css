@@ -63,13 +63,23 @@ body {
 }
 
 @keyframes tronGlow {
-    from { text-shadow: 0 0 20px var(--primary-cyan), 0 0 40px var(--primary-cyan); }
-    to { text-shadow: 0 0 30px var(--primary-cyan), 0 0 60px var(--primary-cyan), 0 0 80px var(--primary-cyan); }
+    from {
+        text-shadow: 0 0 20px var(--primary-cyan), 0 0 40px var(--primary-cyan);
+    }
+
+    to {
+        text-shadow: 0 0 30px var(--primary-cyan), 0 0 60px var(--primary-cyan), 0 0 80px var(--primary-cyan);
+    }
 }
 
 @keyframes lightcyclesGlow {
-    from { text-shadow: 0 0 15px var(--primary-orange), 0 0 30px var(--primary-orange); }
-    to { text-shadow: 0 0 25px var(--primary-orange), 0 0 50px var(--primary-orange), 0 0 70px var(--primary-orange); }
+    from {
+        text-shadow: 0 0 15px var(--primary-orange), 0 0 30px var(--primary-orange);
+    }
+
+    to {
+        text-shadow: 0 0 25px var(--primary-orange), 0 0 50px var(--primary-orange), 0 0 70px var(--primary-orange);
+    }
 }
 
 .buttons-container {
@@ -175,15 +185,20 @@ body {
 #myCanvas {
     border: 2px solid var(--primary-cyan) !important;
     border-radius: 10px;
-    box-shadow: 
+    box-shadow:
         0 0 20px var(--primary-cyan),
         inset 0 0 20px rgba(0, 255, 255, 0.1);
     animation: canvasPulse 3s ease-in-out infinite alternate;
 }
 
 @keyframes canvasPulse {
-    from { box-shadow: 0 0 20px var(--primary-cyan), inset 0 0 20px rgba(0, 255, 255, 0.1); }
-    to { box-shadow: 0 0 40px var(--primary-cyan), inset 0 0 30px rgba(0, 255, 255, 0.2); }
+    from {
+        box-shadow: 0 0 20px var(--primary-cyan), inset 0 0 20px rgba(0, 255, 255, 0.1);
+    }
+
+    to {
+        box-shadow: 0 0 40px var(--primary-cyan), inset 0 0 30px rgba(0, 255, 255, 0.2);
+    }
 }
 
 .help {
@@ -346,6 +361,7 @@ p {
         transform: rotate(0deg) scale(0);
         opacity: 0;
     }
+
     50% {
         transform: rotate(-10deg) scale(1.2);
     }
@@ -376,26 +392,26 @@ p {
     .title-tron {
         font-size: 2.5rem;
     }
-    
+
     .title-lightcycles {
         font-size: 1.2rem;
     }
-    
+
     .player-panel {
         width: 130px;
         padding: 15px 10px;
         top: 50%;
         transform: translateY(-50%);
     }
-    
+
     .left {
         left: 40px;
     }
-    
+
     .right {
         right: 40px;
     }
-    
+
     .buttons {
         font-size: 0.9rem;
         padding: 10px 20px;
