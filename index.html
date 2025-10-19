@@ -9,12 +9,16 @@
 	<meta name="description" content="Two players must steer a motorcycle avoiding colliding with the walls. 
 		The further the game progresses, the faster the motorcycles move.">
 	<title>Tron Light Cycles</title>
+	<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 	<div class="center">
-		<h1>Tron Light Cycles</h1>
+		<h1 class="game-title">
+			<span class="title-tron">TRON</span>
+			<span class="title-lightcycles">Light Cycles</span>
+		</h1>
 		<div class="buttons-container">
 			<button id="pauseButton" type="button" aria-label="Pause" onclick="pause()" class="buttons">Pause</button>
 			<button id="goButton" type="button" aria-label="Resume" onclick="go()" class="buttons">Resume</button>
@@ -22,16 +26,34 @@
 		</div>
 		<br><br>
 
-		<div class="left">
-			<p>Score player 1</p>
-			<p id="score1"></p>
-			<input type="color" id="moto1color" value="#253db3">
+		<div class="player-panel left">
+			<div class="player-title">PLAYER 1</div>
+			<div class="score-section">
+				<div class="score-label">SCORE</div>
+				<div class="score-value" id="score1">0</div>
+			</div>
+			<div class="color-section">
+				<div class="color-label">COLOR</div>
+				<input type="color" id="moto1color" value="#253db3">
+			</div>
+			<div class="controls-section">
+				<div class="controls-label">ARROW KEYS</div>
+			</div>
 		</div>
 
-		<div class="right">
-			<p>Score player 2</p>
-			<p id="score2"></p>
-			<input type="color" id="moto2color" value="#e66465">
+		<div class="player-panel right">
+			<div class="player-title">PLAYER 2</div>
+			<div class="score-section">
+				<div class="score-label">SCORE</div>
+				<div class="score-value" id="score2">0</div>
+			</div>
+			<div class="color-section">
+				<div class="color-label">COLOR</div>
+				<input type="color" id="moto2color" value="#e66465">
+			</div>
+			<div class="controls-section">
+				<div class="controls-label">WASD KEYS</div>
+			</div>
 		</div>
 
 		<label class="muteButton" aria-label="Mute Music">
@@ -55,16 +77,15 @@
 			&#013 'a' to go left">
 		</div>
 
-		<canvas id="myCanvas" width="700" height="460" style="border:2px solid #000000;">
+		<canvas id="myCanvas" width="700" height="460">
 		</canvas>
 		<br>
 
-		<p>Mouse on :</p>
+		<p>Mouse control</p>
 		<div class="mouse-buttons-container">
 			<button id="player1Button" type="button" aria-label="Use mouse for player 1" onclick="changeMousePlayer()"
-				style="width: 100px; height: 30px; color:DodgerBlue;" disabled="true">Player 1</button>
-			<button id="player2Button" type="button" aria-label="Use mouse for player 2" onclick="changeMousePlayer()"
-				style="width: 100px; height: 30px; color: tomato;">Player 2</button>
+				disabled="true">Player 1</button>
+			<button id="player2Button" type="button" aria-label="Use mouse for player 2" onclick="changeMousePlayer()">Player 2</button>
 			<br><br>
 		</div>
 	</div>
