@@ -18,7 +18,6 @@ Here are some planned improvements and features that will be added to the game i
    - Add sound effects for movements such as left and right turns.
 
 2. **Enhanced Graphics and Visual Effects:**
-   - Add a toggle switch to the mouse control button to choose between Player 1 and Player 2 for mouse control.
    - Improve the appearance of the motorcycle trail.
    - Custom light cycle skins: Personalized bikes and trails
 
@@ -27,7 +26,6 @@ Here are some planned improvements and features that will be added to the game i
 
 4. **Mobile Compatibility:**
    - Optimize the game for mobile devices and ensure responsive design for various screen sizes.
-   - Implement touch controls and gestures for gameplay on touch-enabled devices.
    - Offline gameplay with Service Workers
 
 5. **Single-Player Mode:**

@@ -265,9 +265,23 @@ function go() {
 }
 
 function changeMousePlayer() {
-    mousePlayer1 = !mousePlayer1;
-    document.getElementById('player1Button').disabled = mousePlayer1;
-    document.getElementById('player2Button').disabled = !mousePlayer1;
+    const toggle = document.getElementById('mousePlayerToggle');
+    const player1Label = document.getElementById('player1Label');
+    const player2Label = document.getElementById('player2Label');
+    
+    mousePlayer1 = !toggle.checked; // Player 1 par défaut
+    
+    if (mousePlayer1) {
+        player1Label.classList.add('active');
+        player2Label.classList.remove('active');
+        player1Label.style.color = 'var(--primary-cyan)';
+        player2Label.style.color = 'var(--primary-cyan)';
+    } else {
+        player1Label.classList.remove('active');
+        player2Label.classList.add('active');
+        player1Label.style.color = 'var(--primary-cyan)';
+        player2Label.style.color = 'var(--primary-orange)';
+    }
 }
 
 function muteMusic() {
@@ -276,3 +290,17 @@ function muteMusic() {
     document.getElementById('backgroundMusic').muted = isMuted;
     document.getElementById('collisionSound').muted = isMuted;
 }
+
+function initializeToggleSwitch() {
+    const toggle = document.getElementById('mousePlayerToggle');
+    const player1Label = document.getElementById('player1Label');
+    const player2Label = document.getElementById('player2Label');
+    
+    toggle.checked = false;
+    player1Label.classList.add('active');
+    player2Label.classList.remove('active');
+    player1Label.style.color = 'var(--primary-cyan)';
+    player2Label.style.color = 'var(--primary-cyan)';
+}
+
+document.addEventListener('DOMContentLoaded', initializeToggleSwitch);

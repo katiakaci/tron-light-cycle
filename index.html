@@ -82,13 +82,17 @@
 		<br>
 
 		<p>Mouse control</p>
-		<div class="mouse-buttons-container">
-			<button id="player1Button" type="button" aria-label="Use mouse for player 1" onclick="changeMousePlayer()"
-				disabled="true">Player 1</button>
-			<button id="player2Button" type="button" aria-label="Use mouse for player 2"
-				onclick="changeMousePlayer()">Player 2</button>
-			<br><br>
+		<div class="mouse-toggle-container">
+			<div class="toggle-switch">
+				<span class="toggle-label" id="player1Label">Player 1</span>
+				<label class="switch" for="mousePlayerToggle">
+					<input type="checkbox" id="mousePlayerToggle" onchange="changeMousePlayer()">
+					<span class="slider"></span>
+				</label>
+				<span class="toggle-label" id="player2Label">Player 2</span>
+			</div>
 		</div>
+		<br>
 	</div>
 
 	<audio id="backgroundMusic" loop muted>
