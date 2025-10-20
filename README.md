@@ -22,16 +22,13 @@ Here are some planned improvements and features that will be added to the game i
    - Custom light cycle skins: Personalized bikes and trails
 
 3. **Customizable Game Settings:**
-   - Provide options for customizing game settings such as control schemes, game speed/difficulty levels and  grid size.
+   - Provide options for customizing game settings such as game speed/difficulty levels and  grid size.
 
 4. **Mobile Compatibility:**
    - Optimize the game for mobile devices and ensure responsive design for various screen sizes.
    - Offline gameplay with Service Workers
 
-5. **Single-Player Mode:**
-   - Develop an AI opponent with adjustable difficulty levels for single-player mode.
-
-6. **Multiplayer Mode:**
+5. **Multiplayer Mode:**
 - 2 to 8 simultaneous players in multiplayer battles
 - Last cycle standing wins
 - Real-time online multiplayer with WebSockets
@@ -39,8 +36,7 @@ Here are some planned improvements and features that will be added to the game i
 - Private rooms: Create and join custom games
 - Spectator mode for eliminated players
 
-7. **Power-ups & special abilities**
-
+6. **Power-ups & special abilities**
 - Speed Boost: Temporary acceleration for quick escapes
 - Shield: Protection against one collision
 - Teleport: Instant transportation to avoid obstacles

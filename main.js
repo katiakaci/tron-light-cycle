@@ -24,6 +24,9 @@ document.getElementById("score2").innerText = lightCycle2_score;
 let tempX, tempY;
 let mousePlayer1 = true;
 
+let isSinglePlayer = false;
+let aiEnabled = false;
+
 const create2DArray = (numColumns, numRows) => {
     return Array.from({ length: numColumns }, () => Array(numRows).fill(0));
 };
@@ -172,6 +175,15 @@ const advance = () => {
         return;
     }
 
+    // AI Decision Making
+    if (aiEnabled && lightCycle2_alive) {
+        const aiDirection = aiMakeDecision();
+        if (aiDirection) {
+            lightCycle2_vx = aiDirection.vx;
+            lightCycle2_vy = aiDirection.vy;
+        }
+    }
+
     if (lightCycle1_alive && lightCycle2_alive) {
         var new1_x = lightCycle1_x + lightCycle1_vx;
         var new1_y = lightCycle1_y + lightCycle1_vy;
@@ -268,9 +280,9 @@ function changeMousePlayer() {
     const toggle = document.getElementById('mousePlayerToggle');
     const player1Label = document.getElementById('player1Label');
     const player2Label = document.getElementById('player2Label');
-    
+
     mousePlayer1 = !toggle.checked; // Player 1 par défaut
-    
+
     if (mousePlayer1) {
         player1Label.classList.add('active');
         player2Label.classList.remove('active');
@@ -295,12 +307,243 @@ function initializeToggleSwitch() {
     const toggle = document.getElementById('mousePlayerToggle');
     const player1Label = document.getElementById('player1Label');
     const player2Label = document.getElementById('player2Label');
-    
+
     toggle.checked = false;
     player1Label.classList.add('active');
     player2Label.classList.remove('active');
     player1Label.style.color = 'var(--primary-cyan)';
     player2Label.style.color = 'var(--primary-cyan)';
+}
+
+// Navigation entre pages
+function showPage(pageId) {
+    // Cacher toutes les pages
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+
+    // Afficher la page demandée
+    document.getElementById(pageId).classList.add('active');
+}
+
+function startGame(mode) {
+    // Configurer le mode de jeu
+    if (mode === 'singleplayer') {
+        isSinglePlayer = true;
+        aiEnabled = true;
+
+        // Mettre à jour l'interface
+        document.getElementById('currentMode').textContent = 'AI OPPONENT';
+        document.getElementById('currentMode').classList.add('ai-mode');
+        document.querySelector('.player-panel.right .player-title').textContent = 'AI OPPONENT';
+
+        // Masquer le contrôle souris en mode IA
+        document.querySelector('.mouse-toggle-container').style.display = 'none';
+        document.getElementById('mouseControlText').style.display = 'none';
+    } else {
+        isSinglePlayer = false;
+        aiEnabled = false;
+
+        // Mettre à jour l'interface
+        document.getElementById('currentMode').textContent = '2 PLAYERS';
+        document.getElementById('currentMode').classList.remove('ai-mode');
+        document.querySelector('.player-panel.right .player-title').textContent = 'PLAYER 2';
+
+        // Afficher le toggle de contrôle souris au cas où mode IA a été choisi avant
+        document.querySelector('.mouse-toggle-container').style.display = 'flex';
+    }
+
+    showPage('gamePage');
+    restart();
+}
+
+function backToHome() {
+    pause();
+    showPage('homePage');
+
+    // Réinitialiser les scores
+    lightCycle1_score = 0;
+    lightCycle2_score = 0;
+    document.getElementById("score1").innerText = lightCycle1_score;
+    document.getElementById("score2").innerText = lightCycle2_score;
+}
+
+function isValidPosition(x, y) {
+    // Vérifier si la position est dans les limites et si libre
+    return x >= 0 && x < NUM_CELLS_HORIZONTAL &&
+        y >= 0 && y < NUM_CELLS_VERTICAL &&
+        grid[x][y] === CELL_EMPTY;
+}
+
+function calculateAreaSize(x, y, direction, maxDepth = 100) {
+    // Calculer la taille de l'espace accessible à partir d'une position dans une direction
+    const visited = new Set();
+    const queue = [{ x: x + direction.vx, y: y + direction.vy }];
+    let area = 0;
+
+    while (queue.length > 0 && area < maxDepth) {
+        const pos = queue.shift();
+        const key = `${pos.x},${pos.y}`;
+
+        if (visited.has(key) || !isValidPosition(pos.x, pos.y)) {
+            continue;
+        }
+
+        visited.add(key);
+        area++;
+
+        // Ajouter les positions qui sont adjacentes
+        queue.push(
+            { x: pos.x + 1, y: pos.y },
+            { x: pos.x - 1, y: pos.y },
+            { x: pos.x, y: pos.y + 1 },
+            { x: pos.x, y: pos.y - 1 }
+        );
+    }
+
+    return area;
+}
+
+function aiMakeDecision() {
+    const currentX = lightCycle2_x;
+    const currentY = lightCycle2_y;
+
+    const directions = [
+        { vx: 0, vy: -1, name: 'up' },
+        { vx: 0, vy: 1, name: 'down' },
+        { vx: -1, vy: 0, name: 'left' },
+        { vx: 1, vy: 0, name: 'right' }
+    ];
+
+    // Évaluer chaque direction
+    let bestDirection = null;
+    let bestScore = -1;
+
+    for (let direction of directions) {
+        const newX = currentX + direction.vx;
+        const newY = currentY + direction.vy;
+
+        // Éviter de faire demi-tour
+        if (direction.vx === -lightCycle2_vx && direction.vy === -lightCycle2_vy) {
+            continue;
+        }
+
+        // Vérifier si la direction est valide
+        if (!isValidPosition(newX, newY)) {
+            continue;
+        }
+
+        // Calculer le score pour cette direction
+        let score = 0;
+
+        // Distance qu'on peut parcourir en sécurité (priorité principale)
+        const safeDistance = calculateSafePath(currentX, currentY, direction);
+        score += safeDistance * 10;
+
+        // Taille de l'espace accessible (éviter d'être coincé)
+        const areaSize = calculateAreaSize(currentX, currentY, direction);
+        score += areaSize * 5;
+
+        // Éviter de se rapprocher trop des murs
+        const distanceToWallX = direction.vx > 0 ?
+            (NUM_CELLS_HORIZONTAL - 1 - newX) : newX;
+        const distanceToWallY = direction.vy > 0 ?
+            (NUM_CELLS_VERTICAL - 1 - newY) : newY;
+        const minDistanceToWall = Math.min(distanceToWallX, distanceToWallY);
+        score += minDistanceToWall * 2;
+
+        // Rester au centre du terrain
+        const centerX = NUM_CELLS_HORIZONTAL / 2;
+        const centerY = NUM_CELLS_VERTICAL / 2;
+        const distanceToCenter = Math.abs(newX - centerX) + Math.abs(newY - centerY);
+        score -= distanceToCenter * 0.5;
+
+        // Stratégie: éviter de se rapprocher du joueur si on est en danger
+        const distanceToPlayer = Math.abs(newX - lightCycle1_x) + Math.abs(newY - lightCycle1_y);
+        if (distanceToPlayer < 10 && safeDistance < 15) {
+            score += distanceToPlayer * 3; // Bonus pour s'éloigner du joueur
+        }
+
+        // Mettre à jour la meilleure direction
+        if (score > bestScore) {
+            bestScore = score;
+            bestDirection = direction;
+        }
+    }
+
+    // Si aucune direction optimale n'est trouvée, utiliser une direction aléatoire sûre
+    if (!bestDirection) {
+        bestDirection = getRandomSafeDirection();
+    }
+
+    return bestDirection;
+} function getRandomSafeDirection() {
+    // Obtenir une direction aléatoire sûre
+    const directions = [
+        { vx: 0, vy: -1 }, // Haut
+        { vx: 0, vy: 1 },  // Bas
+        { vx: -1, vy: 0 }, // Gauche
+        { vx: 1, vy: 0 }   // Droite
+    ];
+
+    // Filtrer les directions sûres
+    const safeDirections = directions.filter(dir => {
+        const newX = lightCycle2_x + dir.vx;
+        const newY = lightCycle2_y + dir.vy;
+        return isValidPosition(newX, newY);
+    });
+
+    // Éviter de faire demi-tour (direction opposée)
+    const filteredDirections = safeDirections.filter(dir => {
+        return !(dir.vx === -lightCycle2_vx && dir.vy === -lightCycle2_vy);
+    });
+
+    // Choisir parmi les directions filtrées, ou les directions sûres si aucune
+    const finalDirections = filteredDirections.length > 0 ? filteredDirections : safeDirections;
+
+    if (finalDirections.length === 0) {
+        return null; // Aucune direction sûre disponible
+    }
+
+    // Retourner une direction aléatoire
+    const randomIndex = Math.floor(Math.random() * finalDirections.length);
+    return finalDirections[randomIndex];
+}
+
+function analyzeSurroundings(x, y) {
+    // Analyser les cellules autour de la position (x, y)
+    const directions = {
+        up: { x: x, y: y - 1, safe: false },
+        down: { x: x, y: y + 1, safe: false },
+        left: { x: x - 1, y: y, safe: false },
+        right: { x: x + 1, y: y, safe: false }
+    };
+
+    for (let dir in directions) {
+        const pos = directions[dir];
+        directions[dir].safe = isValidPosition(pos.x, pos.y);
+    }
+
+    return directions;
+}
+
+function calculateSafePath(x, y, direction) {
+    // Calculer combien de cases l'IA peut avancer en sécurité dans cette direction
+    let steps = 0;
+    let currentX = x + direction.vx;
+    let currentY = y + direction.vy;
+
+    // Continuer tant que la position est valide
+    while (isValidPosition(currentX, currentY)) {
+        steps++;
+        currentX += direction.vx;
+        currentY += direction.vy;
+
+        // éviter calculs trop longs
+        if (steps > 50) break;
+    }
+
+    return steps;
 }
 
 document.addEventListener('DOMContentLoaded', initializeToggleSwitch);
