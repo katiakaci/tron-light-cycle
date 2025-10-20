@@ -116,14 +116,14 @@ body {
 .left {
     color: var(--primary-cyan);
     border-color: var(--primary-cyan);
-    left: 220px;
+    left: calc(max(50px, (100vw - 1200px) / 2 - 60px));
     box-shadow: 0 0 20px var(--primary-cyan);
 }
 
 .right {
     color: var(--primary-orange);
     border-color: var(--primary-orange);
-    right: 220px;
+    right: calc(max(50px, (100vw - 1200px) / 2 - 100px));
     box-shadow: 0 0 20px var(--primary-orange);
 }
 
@@ -189,6 +189,8 @@ body {
         0 0 20px var(--primary-cyan),
         inset 0 0 20px rgba(0, 255, 255, 0.1);
     animation: canvasPulse 3s ease-in-out infinite alternate;
+    max-width: calc(100vw - 400px);
+    height: auto;
 }
 
 @keyframes canvasPulse {
@@ -387,7 +389,46 @@ p {
     box-shadow: 0 0 10px #ff0000;
 }
 
-/* Responsive adjustments for cellphones and tablets */
+/* Medium screens */
+@media (max-width: 1200px) and (min-width: 769px) {
+    .left {
+        left: calc(max(30px, (100vw - 1000px) / 2 + 15px));
+    }
+
+    .right {
+        right: calc(max(30px, (100vw - 1000px) / 2 + 15px));
+    }
+
+    .player-panel {
+        width: 140px;
+    }
+    
+    #myCanvas {
+        max-width: calc(100vw - 320px);
+    }
+}
+
+/* Smalll screens */
+@media (max-width: 1000px) and (min-width: 769px) {
+    .left {
+        left: calc(max(20px, (100vw - 800px) / 2 + 10px));
+    }
+
+    .right {
+        right: calc(max(20px, (100vw - 800px) / 2 + 10px));
+    }
+
+    .player-panel {
+        width: 120px;
+        padding: 15px 10px;
+    }
+    
+    #myCanvas {
+        max-width: calc(100vw - 280px);
+    }
+}
+
+/* Cellphones and tablets */
 @media (max-width: 768px) {
     .title-tron {
         font-size: 2.5rem;
@@ -400,20 +441,26 @@ p {
     .player-panel {
         width: 130px;
         padding: 15px 10px;
-        top: 50%;
-        transform: translateY(-50%);
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        transform: none;
+        margin: 10px;
+        display: inline-block;
     }
 
-    .left {
-        left: 40px;
-    }
-
-    .right {
-        right: 40px;
+    .center {
+        gap: 10px;
     }
 
     .buttons {
         font-size: 0.9rem;
         padding: 10px 20px;
+    }
+    
+    #myCanvas {
+        max-width: 90vw;
+        height: auto;
     }
 }
