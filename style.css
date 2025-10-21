@@ -46,13 +46,20 @@ body {
     text-align: center;
     max-width: 600px;
     margin: 20px 0;
+    background: rgba(0, 20, 40, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 255, 255, 0.1);
 }
 
 .game-description p {
     font-size: 1.1rem;
     margin: 10px 0;
     color: var(--primary-cyan);
-    opacity: 0.9;
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
 }
 
 .mode-selection {
@@ -149,6 +156,11 @@ body {
     justify-content: center;
     align-items: center;
     gap: 3px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
 }
 
 .game-title-small .title-tron {
@@ -202,11 +214,16 @@ body {
     color: var(--primary-cyan);
     text-shadow: 0 0 10px var(--primary-cyan);
     letter-spacing: 2px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 255, 255, 0.3);
 }
 
 .current-mode.ai-mode {
     color: var(--primary-orange);
     text-shadow: 0 0 10px var(--primary-orange);
+    border-color: rgba(255, 102, 0, 0.3);
 }
 
 .center {
@@ -228,6 +245,11 @@ body {
     justify-content: center;
     align-items: center;
     gap: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    padding: 2rem 3rem;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 255, 255, 0.3);
 }
 
 .title-tron {
