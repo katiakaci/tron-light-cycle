@@ -20,6 +20,10 @@ let lightCycle1_score = 0, lightCycle2_score = 0;
 document.getElementById("score1").innerText = lightCycle1_score;
 document.getElementById("score2").innerText = lightCycle2_score;
 
+let gameEnded = false;
+let winner = null;
+const WINNING_SCORE = 7;
+
 // Mouse drag
 let tempX, tempY;
 let mousePlayer1 = true;
@@ -60,6 +64,8 @@ const clearGame = () => {
 clearGame();
 
 const keyDownHandler = (e) => {
+    if (gameEnded) return;
+
     switch (e.keyCode) {
         // 1st player
         case 38: // up arrow
@@ -102,6 +108,8 @@ const keyDownHandler = (e) => {
 }
 
 const mouseDownHandler = (e) => {
+    if (gameEnded) return;
+
     // check if the mouse is on the canvas
     if (e.pageX <= canvas_rectangle.right
         && e.pageY <= canvas_rectangle.bottom
@@ -114,6 +122,8 @@ const mouseDownHandler = (e) => {
 }
 
 const mouseUpHandler = (e) => {
+    if (gameEnded) return;
+
     // check if the mouse is on the canvas
     if (e.pageX <= canvas_rectangle.right &&
         e.pageY <= canvas_rectangle.bottom &&
@@ -170,6 +180,8 @@ const redraw = () => {
 }
 
 const advance = () => {
+    if (gameEnded) return;
+
     if (!lightCycle1_alive || !lightCycle2_alive) {
         clearGame();
         return;
@@ -213,7 +225,13 @@ const advance = () => {
             || grid[new1_x][new1_y] === CELL_OCCUPIED) {
             lightCycle1_alive = false;
             document.getElementById('collisionSound').play();
-            document.getElementById("score2").innerText = ++lightCycle2_score; // player 2 wins
+            lightCycle2_score++; // player 2 wins this round
+            document.getElementById("score2").innerText = lightCycle2_score;
+
+            // Si 7 atteint, partie finie
+            if (lightCycle2_score >= WINNING_SCORE) {
+                declareWinner(2);
+            }
         }
         else {
             grid[new1_x][new1_y] = CELL_OCCUPIED;
@@ -233,7 +251,13 @@ const advance = () => {
         ) {
             lightCycle2_alive = false;
             document.getElementById('collisionSound').play();
-            document.getElementById("score1").innerText = ++lightCycle1_score; // player 1 wins
+            lightCycle1_score++; // player 1 wins this round
+            document.getElementById("score1").innerText = lightCycle1_score;
+
+            // Si 7 atteint, partie finie
+            if (lightCycle1_score >= WINNING_SCORE) {
+                declareWinner(1);
+            }
         } else {
             grid[new2_x][new2_y] = CELL_OCCUPIED;
             grid2[lightCycle2_x][lightCycle2_y] = CELL_OCCUPIED;
@@ -357,8 +381,162 @@ function startGame(mode) {
     restart();
 }
 
+function declareWinner(winnerNumber) {
+    gameEnded = true;
+    winner = winnerNumber;
+    pause();
+
+    // Changer les couleurs des panneaux
+    const leftPanel = document.querySelector('.player-panel.left');
+    const rightPanel = document.querySelector('.player-panel.right');
+
+    if (winnerNumber === 1) {
+        // Player 1 wins = vert à gauche et rouge à droite
+        leftPanel.style.borderColor = '#00ff00';
+        leftPanel.style.boxShadow = '0 0 30px #00ff00';
+        leftPanel.style.color = '#00ff00';
+
+        rightPanel.style.borderColor = '#ff0000';
+        rightPanel.style.boxShadow = '0 0 30px #ff0000';
+        rightPanel.style.color = '#ff0000';
+
+        showVictoryMessage('PLAYER 1 WINS!', '#00ff00');
+    } else {
+        // Player 2 wins = rouge à gauche et vert à droite
+        rightPanel.style.borderColor = '#00ff00';
+        rightPanel.style.boxShadow = '0 0 30px #00ff00';
+        rightPanel.style.color = '#00ff00';
+
+        leftPanel.style.borderColor = '#ff0000';
+        leftPanel.style.boxShadow = '0 0 30px #ff0000';
+        leftPanel.style.color = '#ff0000';
+
+        const winnerText = aiEnabled ? 'AI WINS!' : 'PLAYER 2 WINS!';
+        showVictoryMessage(winnerText, '#00ff00');
+    }
+    document.onkeydown = null;
+    document.onmousedown = null;
+    document.onmouseup = null;
+}
+
+function showVictoryMessage(message, color) {
+    let victoryDiv = document.getElementById('victoryMessage');
+    if (!victoryDiv) {
+        victoryDiv = document.createElement('div');
+        victoryDiv.id = 'victoryMessage';
+        victoryDiv.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            border: 3px solid ${color};
+            border-radius: 20px;
+            padding: 40px 60px;
+            text-align: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: ${color};
+            text-shadow: 0 0 20px ${color};
+            box-shadow: 0 0 50px ${color};
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            animation: victoryPulse 2s ease-in-out infinite alternate;
+        `;
+
+        const messageText = document.createElement('div');
+        messageText.textContent = message;
+        messageText.style.marginBottom = '20px';
+        victoryDiv.appendChild(messageText);
+
+        // Bouton pour recommencer
+        const restartButton = document.createElement('button');
+        restartButton.textContent = 'NEW GAME';
+        restartButton.style.cssText = `
+            background: linear-gradient(45deg, rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0.3));
+            border: 2px solid var(--primary-cyan);
+            color: var(--primary-cyan);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        `;
+        restartButton.onclick = newGame;
+        restartButton.onmouseover = () => {
+            restartButton.style.boxShadow = '0 0 20px var(--primary-cyan)';
+            restartButton.style.transform = 'translateY(-2px)';
+        };
+        restartButton.onmouseout = () => {
+            restartButton.style.boxShadow = 'none';
+            restartButton.style.transform = 'none';
+        };
+
+        victoryDiv.appendChild(restartButton);
+        document.body.appendChild(victoryDiv);
+    } else {
+        // Mettre à jour texte existant
+        victoryDiv.firstElementChild.textContent = message;
+        victoryDiv.style.borderColor = color;
+        victoryDiv.style.color = color;
+        victoryDiv.style.textShadow = `0 0 20px ${color}`;
+        victoryDiv.style.boxShadow = `0 0 50px ${color}`;
+    }
+}
+
+function newGame() {
+    const victoryDiv = document.getElementById('victoryMessage');
+    if (victoryDiv) {
+        victoryDiv.remove();
+    }
+
+    // Réinitialiser l'état du jeu
+    gameEnded = false;
+    winner = null;
+    lightCycle1_score = 0;
+    lightCycle2_score = 0;
+    document.getElementById("score1").innerText = lightCycle1_score;
+    document.getElementById("score2").innerText = lightCycle2_score;
+
+    // Remettre les couleurs originales
+    const leftPanel = document.querySelector('.player-panel.left');
+    const rightPanel = document.querySelector('.player-panel.right');
+
+    leftPanel.style.borderColor = 'var(--primary-cyan)';
+    leftPanel.style.boxShadow = '0 0 20px var(--primary-cyan)';
+    leftPanel.style.color = 'var(--primary-cyan)';
+
+    if (aiEnabled) {
+        rightPanel.style.borderColor = 'var(--primary-orange)';
+        rightPanel.style.boxShadow = '0 0 20px var(--primary-orange)';
+        rightPanel.style.color = 'var(--primary-orange)';
+    } else {
+        rightPanel.style.borderColor = 'var(--primary-orange)';
+        rightPanel.style.boxShadow = '0 0 20px var(--primary-orange)';
+        rightPanel.style.color = 'var(--primary-orange)';
+    }
+
+    document.onkeydown = keyDownHandler;
+    document.onmousedown = mouseDownHandler;
+    document.onmouseup = mouseUpHandler;
+
+    restart();
+}
+
 function backToHome() {
     pause();
+
+    // Supprimer message de victoire
+    const victoryDiv = document.getElementById('victoryMessage');
+    if (victoryDiv) victoryDiv.remove();
+
+    // Réinitialiser l'état du jeu
+    gameEnded = false;
+    winner = null;
+
     showPage('homePage');
 
     // Réinitialiser les scores
@@ -366,6 +544,22 @@ function backToHome() {
     lightCycle2_score = 0;
     document.getElementById("score1").innerText = lightCycle1_score;
     document.getElementById("score2").innerText = lightCycle2_score;
+
+    // Remettre les couleurs des panels
+    const leftPanel = document.querySelector('.player-panel.left');
+    const rightPanel = document.querySelector('.player-panel.right');
+
+    leftPanel.style.borderColor = 'var(--primary-cyan)';
+    leftPanel.style.boxShadow = '0 0 20px var(--primary-cyan)';
+    leftPanel.style.color = 'var(--primary-cyan)';
+
+    rightPanel.style.borderColor = 'var(--primary-orange)';
+    rightPanel.style.boxShadow = '0 0 20px var(--primary-orange)';
+    rightPanel.style.color = 'var(--primary-orange)';
+
+    document.onkeydown = keyDownHandler;
+    document.onmousedown = mouseDownHandler;
+    document.onmouseup = mouseUpHandler;
 }
 
 function isValidPosition(x, y) {
