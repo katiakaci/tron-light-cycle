@@ -18,8 +18,8 @@ body {
     background: url("images/background.png") no-repeat center center fixed;
     background-size: cover;
     color: white;
-    height: 100vh;
-    overflow-y: hidden;
+    min-height: 100vh;
+    overflow-y: auto;
     user-select: none;
 }
 
